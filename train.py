@@ -112,14 +112,14 @@ def main():
     data = ImageFolder("/content/drive/My Drive/Module 2 shared folder/samples")
     val_size = int(len(data)*.2)
     train_size = len(data) - val_size
-    train, val = torch.utils.data.random_split(data, [train_size, val_size], generator=torch.Generator().manual_seed(3))
+    train_data, val_data = torch.utils.data.random_split(data, [train_size, val_size], generator=torch.Generator().manual_seed(3))
     
     data_unlabeled = ImageFolder("/content/drive/My Drive/Module 2 shared folder/unlabeled", transform=transform_train)
     data_unlabeled.targets = np.array([-1 for i in range(len(data_unlabeled.targets))])
     
-    labeled_trainloader = DataLoader(train, batch_size=64, shuffle=True, num_workers=0, drop_last=True)
+    labeled_trainloader = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=0, drop_last=True)
     unlabeled_trainloader = DataLoader(data_unlabeled, batch_size=64, shuffle=True, num_workers=0, drop_last=True)
-    val_loader = DataLoader(val, batch_size=64, shuffle=False, num_workers=0)
+    val_loader = DataLoader(val_data, batch_size=64, shuffle=False, num_workers=0)
 
     # Model
     print("==> creating WRN-28-2")
