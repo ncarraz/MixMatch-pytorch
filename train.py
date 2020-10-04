@@ -70,6 +70,15 @@ np.random.seed(args.manualSeed)
 
 best_acc = 0  # best test accuracy
 
+class TransformTwice:
+    def __init__(self, transform):
+        self.transform = transform
+
+    def __call__(self, inp):
+        out1 = self.transform(inp)
+        out2 = self.transform(inp)
+        return out1, out2
+
 def main():
     global best_acc
 
@@ -114,7 +123,7 @@ def main():
     train_size = len(data) - val_size
     train_data, val_data = torch.utils.data.random_split(data, [train_size, val_size], generator=torch.Generator().manual_seed(3))
     
-    data_unlabeled = ImageFolder("/content/drive/My Drive/Module 2 shared folder/unlabeled", transform=transform_train)
+    data_unlabeled = ImageFolder("/content/drive/My Drive/Module 2 shared folder/unlabeled", transform=TransformTwice(transform_train))
     data_unlabeled.targets = np.array([-1 for i in range(len(data_unlabeled.targets))])
     
     labeled_trainloader = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=0, drop_last=True)
