@@ -16,9 +16,12 @@ import torch.optim as optim
 import torch.utils.data as data
 import torchvision.transforms as transforms
 import torch.nn.functional as F
+from torchvision.datasets import ImageFolder
+import torchvision.transforms as transforms
+from torch.utils.data import DataLoader
 
 import models.wideresnet as models
-import dataset.cifar10 as dataset
+#import dataset.cifar10 as dataset
 from utils import Bar, Logger, AverageMeter, accuracy, mkdir_p, savefig
 from tensorboardX import SummaryWriter
 
@@ -74,6 +77,7 @@ def main():
         mkdir_p(args.out)
 
     # Data
+    """
     print(f'==> Preparing cifar10')
     transform_train = transforms.Compose([
         dataset.RandomPadandCrop(32),
@@ -90,6 +94,32 @@ def main():
     unlabeled_trainloader = data.DataLoader(train_unlabeled_set, batch_size=args.batch_size, shuffle=True, num_workers=0, drop_last=True)
     val_loader = data.DataLoader(val_set, batch_size=args.batch_size, shuffle=False, num_workers=0)
     test_loader = data.DataLoader(test_set, batch_size=args.batch_size, shuffle=False, num_workers=0)
+    """
+    transform_train = transforms.Compose([
+        transforms.Grayscale(),
+        transforms.Pad(4),
+        transforms.RandomCrop(32),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5), (0.5))
+    ])
+
+    transform_val = transforms.Compose([
+            transforms.Grayscale(),
+            transforms.ToTensor(),
+    ])
+    
+    data = ImageFolder("/content/drive/My Drive/Module 2 shared folder/samples")
+    val_size = int(len(data)*.2)
+    train_size = len(data) - val_size
+    train, val = torch.utils.data.random_split(data, [train_size, val_size], generator=torch.Generator().manual_seed(3))
+    
+    data_unlabeled = ImageFolder("/content/drive/My Drive/Module 2 shared folder/unlabeled", transform=transform_train)
+    data_unlabeled.targets = np.array([-1 for i in range(len(data_unlabeled.targets))])
+    
+    labeled_trainloader = DataLoader(train, batch_size=64, shuffle=True, num_workers=0, drop_last=True)
+    unlabeled_trainloader = DataLoader(data_unlabeled, batch_size=64, shuffle=True, num_workers=0, drop_last=True)
+    val_loader = DataLoader(val, batch_size=64, shuffle=False, num_workers=0)
 
     # Model
     print("==> creating WRN-28-2")
