@@ -105,7 +105,7 @@ def main():
     test_loader = data.DataLoader(test_set, batch_size=args.batch_size, shuffle=False, num_workers=0)
     """
     transform_train = transforms.Compose([
-        transforms.Grayscale(),
+        #transforms.Grayscale(),
         transforms.Pad(4),
         transforms.RandomCrop(32),
         transforms.RandomHorizontalFlip(),
@@ -114,7 +114,7 @@ def main():
     ])
 
     transform_val = transforms.Compose([
-            transforms.Grayscale(),
+            #transforms.Grayscale(),
             transforms.ToTensor(),
     ])
     
