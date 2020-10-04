@@ -109,7 +109,7 @@ def main():
             transforms.ToTensor(),
     ])
     
-    data = ImageFolder("/content/drive/My Drive/Module 2 shared folder/samples")
+    data = ImageFolder("/content/drive/My Drive/Module 2 shared folder/samples", transform=transform_train)
     val_size = int(len(data)*.2)
     train_size = len(data) - val_size
     train_data, val_data = torch.utils.data.random_split(data, [train_size, val_size], generator=torch.Generator().manual_seed(3))
