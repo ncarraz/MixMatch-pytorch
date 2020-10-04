@@ -274,7 +274,7 @@ def train(labeled_trainloader, unlabeled_trainloader, model, optimizer, ema_opti
             targets_u = targets_u.detach()
 
         # mixup
-        print(targets_x.shape, targets_u.shape)
+        #print(targets_x.shape, targets_u.shape)
         all_inputs = torch.cat([inputs_x, inputs_u, inputs_u2], dim=0)
         all_targets = torch.cat([targets_x, targets_u, targets_u], dim=0)
 
