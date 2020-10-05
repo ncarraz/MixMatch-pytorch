@@ -134,7 +134,7 @@ def main():
     print("==> creating WRN-16-2")
 
     def create_model(ema=False):
-        model = models.WideResNet(num_classes=5, depth=16, widen_factor=2)
+        model = models.WideResNet(num_classes=5)
         model = model.cuda()
 
         if ema:
@@ -174,7 +174,7 @@ def main():
     #logger = Logger(os.path.join(args.out, 'log.txt'), title=title)
     #logger.set_names(['Train Loss', 'Train Loss X', 'Train Loss U',  'Valid Loss', 'Valid Acc.', 'Test Loss', 'Test Acc.'])
 
-    writer = SummaryWriter(args.out)
+    #writer = SummaryWriter(args.out)
     step = 0
     test_accs = []
     # Train and val
@@ -189,12 +189,12 @@ def main():
 
         step = args.train_iteration * (epoch + 1)
 
-        writer.add_scalar('losses/train_loss', train_loss, step)
-        writer.add_scalar('losses/valid_loss', val_loss, step)
+        #writer.add_scalar('losses/train_loss', train_loss, step)
+        #writer.add_scalar('losses/valid_loss', val_loss, step)
         #writer.add_scalar('losses/test_loss', test_loss, step)
 
-        writer.add_scalar('accuracy/train_acc', train_acc, step)
-        writer.add_scalar('accuracy/val_acc', val_acc, step)
+        #writer.add_scalar('accuracy/train_acc', train_acc, step)
+        #writer.add_scalar('accuracy/val_acc', val_acc, step)
         #writer.add_scalar('accuracy/test_acc', test_acc, step)
 
         # append logger file
@@ -213,7 +213,7 @@ def main():
             }, is_best)
         #test_accs.append(test_acc)
     #logger.close()
-    writer.close()
+    #writer.close()
 
     print('Best acc:')
     print(best_acc)
