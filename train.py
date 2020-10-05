@@ -170,7 +170,7 @@ def main():
         ema_model.load_state_dict(checkpoint['ema_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer'])
         #logger = Logger(os.path.join(args.out, 'log.txt'), title=title, resume=True)
-    ~#else:  
+    #else:  
     #logger = Logger(os.path.join(args.out, 'log.txt'), title=title)
     #logger.set_names(['Train Loss', 'Train Loss X', 'Train Loss U',  'Valid Loss', 'Valid Acc.', 'Test Loss', 'Test Acc.'])
 
