@@ -131,10 +131,10 @@ def main():
     val_loader = DataLoader(val_data, batch_size=64, shuffle=False, num_workers=0)
 
     # Model
-    print("==> creating WRN-16-1")
+    print("==> creating WRN-16-2")
 
     def create_model(ema=False):
-        model = models.WideResNet(num_classes=5, depth=16, widen_factor=1)
+        model = models.WideResNet(num_classes=5, depth=16, widen_factor=2)
         model = model.cuda()
 
         if ema:
