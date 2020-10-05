@@ -169,10 +169,10 @@ def main():
         model.load_state_dict(checkpoint['state_dict'])
         ema_model.load_state_dict(checkpoint['ema_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer'])
-        logger = Logger(os.path.join(args.out, 'log.txt'), title=title, resume=True)
+        #logger = Logger(os.path.join(args.out, 'log.txt'), title=title, resume=True)
     else:
-        logger = Logger(os.path.join(args.out, 'log.txt'), title=title)
-        logger.set_names(['Train Loss', 'Train Loss X', 'Train Loss U',  'Valid Loss', 'Valid Acc.', 'Test Loss', 'Test Acc.'])
+        #logger = Logger(os.path.join(args.out, 'log.txt'), title=title)
+        #logger.set_names(['Train Loss', 'Train Loss X', 'Train Loss U',  'Valid Loss', 'Valid Acc.', 'Test Loss', 'Test Acc.'])
 
     writer = SummaryWriter(args.out)
     step = 0
@@ -198,7 +198,7 @@ def main():
         #writer.add_scalar('accuracy/test_acc', test_acc, step)
 
         # append logger file
-        logger.append([train_loss, train_loss_x, train_loss_u, val_loss, val_acc])
+        #logger.append([train_loss, train_loss_x, train_loss_u, val_loss, val_acc])
 
         # save model
         is_best = val_acc > best_acc
@@ -212,7 +212,7 @@ def main():
                 'optimizer' : optimizer.state_dict(),
             }, is_best)
         #test_accs.append(test_acc)
-    logger.close()
+    #logger.close()
     writer.close()
 
     print('Best acc:')
